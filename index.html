@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Case Converter</title>
+</head>
+<body>
+    <div class="title">Case Converter</div>
+    <textarea name="" id="text" cols="30" rows="10"></textarea>
+    <button id="upper-case">Upper Case</button>
+    <button id="lower-case">Lower Case</button>
+    <button id="proper-case">Proper Case</button>
+    <button id="sentence-case">Sentence Case</button>
+    <button id="save-text-file">Save Text File</button>
+
+    <script>
+        const textEl = document.querySelector('textarea');
+
+        document.getElementById("save-text-file").addEventListener("click", () => {
+            function download(filename, text) {
+                let element = document.createElement('a');
+                element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+                element.setAttribute('download', filename);
+
+                element.style.display = 'none';
+                document.body.appendChild(element);
+
+                element.click();
+
+                document.body.removeChild(element);
+            }
+
+            // Start file download.
+            download("text.txt",textEl.value);
+        })
+
+        document.getElementById("upper-case").addEventListener("click", () => {
+            let words = textEl.value.toUpperCase().split(' ');
+            textEl.value = words.join(' ');
+        });
+
+        document.getElementById("lower-case").addEventListener("click", () => {
+            let words = textEl.value.toLowerCase().split(' ');
+            document.querySelector('textarea').value = words.join(' ');
+        });
+
+        document.getElementById("proper-case").addEventListener("click", () => {
+            let words = textEl.value.toLowerCase().split(' ');
+            let newText = [];
+
+            words.forEach((word) => {
+                let modifiedWord = word.charAt(0).toUpperCase().concat(word.slice(1));
+                newText.push(modifiedWord);
+            });
+
+            textEl.value = newText.join(" ");
+        });
+
+        document.getElementById("sentence-case").addEventListener("click", () => {
+            let sentences = textEl.value.toLowerCase().split('. ');
+            let modifiedSentences = [];
+            for (let sentence of sentences) {
+                let modifiedSentence = sentence.charAt(0).toUpperCase().concat(sentence.slice(1));
+                modifiedSentences.push(modifiedSentence);
+            }
+            textEl.value = modifiedSentences.join('. ');
+        });
+    </script>
+</body>
+</html>
